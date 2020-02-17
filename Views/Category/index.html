@@ -1,0 +1,68 @@
+{% extends "__core/index.html" %}
+
+
+{% block content %}
+
+<div class="form-row">
+  <div class="col-md-4 mb-3">
+  
+    <select  class="form-control" id="categoryId">
+
+      <option value="0">Select category</option>
+      {% for category in categories%}
+      <option value="{{category.id}}">{{category.name}}</option>
+    
+      {% endfor%}
+    </select>
+ 
+  </div>
+  <div class="col-md-3 mb-3">
+    <input type="number" class="form-control" id="priceMin" placeholder="Price min" required>
+    
+  </div>
+  <div class="col-md-3 mb-3">
+    <input type="number" class="form-control" id="priceMax" placeholder="Price max" >
+  </div>
+
+<div class="col-md-2">
+  <select  id="order" class="form-control" >
+    <option value="ASC">Expensive</option>
+    <option value="DESC">Cheap</option>
+  </select>
+
+</div>
+</div>
+
+<div class="row">
+  <div class="input-group mb-3">
+  
+    <input type="text" class="form-control" placeholder="Typing to search.." aria-label="Recipient's username" id="searchWord" aria-describedby="button-addon2">
+    <div class="input-group-append">
+      <button class="btn  btn-primary" type="button" id="searchAuctionsBtn">Search</button>
+    </div>
+  </div>
+
+</div>
+<div id="maincontent">
+<div class="row d-flex justify-content-between">
+  {% for category in categories %}
+<div class="card col-md-5 mb-4" >
+    <div class="card-header">
+    <h3 class="text-center">{{category.name}}</h3>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        {% for auction in category.auctions  %}
+      <li class="list-group-item"> <a href="{{path}}/auction/{{auction.id}}">{{auction.title}}</a></li>
+        {% endfor%}
+      </ul>
+    </div>
+ 
+</div>
+
+ 
+  {% endfor %}
+</div>
+
+</div>
+    {% endblock %}

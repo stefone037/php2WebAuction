@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Web Auction</title>
+  <link rel="stylesheet" href="{{path}}assets/css/style.css">
+  <script src="https://kit.fontawesome.com/0b523cd837.js" crossorigin="anonymous"></script>
+<link rel='shortcut icon' type='image/x-icon' href='{{path}}assets/img/logo_vgz_icon.ico' />
+</head>
+<body>
+
+  <header>
+    <div class="container">
+    <div class="row">
+        <div class="offset-md-1 col-md-5">
+         
+            <a class="navbar-brand">
+              <img id="logo" src="{{path}}assets/img/logo.png" />
+            </a>
+            
+         
+        </div>
+        <div class="col-md-6">
+            <div class="socialIcons">
+              <a href="#"><i class="fab fa-twitter fa-lg"></i> </a>
+              <a href="#"><i class="fab fa-linkedin-in fa-lg"></i>   </a>
+              <a href="#"><i class="fab fa-instagram fa-lg"></i> </a>
+              <a href="#"><i class="fab fa-facebook-square fa-lg"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+      <nav class="nav nav-pills nav-fill">
+        <a class="nav-item nav-link" href="{{path}}category/"> <i class="fas fa-home"></i> Home</a>
+        <a class="nav-item nav-link" href="{{path}}users/{{user.id}}"><i class="fas fa-user"></i>Profile</a>
+        <a class="nav-item nav-link" href="{{path}}auction/finished"><i class="fas fa-medal"></i>My win auctions</a>
+      <a class="nav-item nav-link" href="{{path}}auction/create/"><i class="fas fa-plus"></i>Add auction</a>
+        <!-- <a class="nav-item nav-link" href="#"><i class="fas fa-bookmark"></i>Bookmarks</a> -->
+          {% if user == false %} 
+        <a class="nav-item nav-link" href="{{path}}users/login/"> <i class="fas fa-sign-in-alt"></i> Login</a>
+        {% endif %}
+        {% if user %}
+        <a class="nav-item nav-link" id="logout" href="#"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        <form method="POST" action="{{path}}users/logout">
+          <button type="submit" id='logoutSubmit'>Logout</button>
+        </form>
+          {% endif%}
+      
+
+        {% if user == false  %}
+        <a class="nav-item nav-link" href="{{path}}users/register/">
+          
+          <i class="fas fa-user-plus"></i>
+          Register</a>
+          {% endif%}
+
+
+
+{% if user.role == 'admin'  %}
+          <a class="nav-item nav-link btn btn-danger" href="{{path}}admin/"> <i class="fas fa-cogs"></i> Admin panel</a>
+
+          {% endif%}
+      </nav>
+    </div>
+    </div>
+  </div>
+  </header>
+
+  <div id="content" class="container">
+ 
+
+
+    {% block content %} {% endblock %}
+
+
+  </div>
+
+
+
+
+
+
+  <footer id="footer">
+    <div class="container">
+      <h5>Copyright 2020  <a href="https://www.linkedin.com/in/stefan-aksentijevic-73a579196/"> <i class="fab fa-linkedin"></i> Stefan Aksentijevic</a></h5>
+    </div>
+  </footer>
+
+
+  <script> const PATH = "{{path}}"; </script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+  <script src="{{path}}assets/js/app.js" ></script>
+  <script src="{{path}}assets/js/admin.js" ></script>
+</body>
+</html>

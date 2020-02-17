@@ -1,0 +1,6 @@
+{
+  "name": "schoolProject",
+  "dependencies": {
+    "bootstrap": "^4.4.1"
+  }
+}

@@ -1,0 +1,57 @@
+{% extends "__core/index.html" %}
+{% block content %}
+<h1 class='text-center'>Admin panel</h1>
+<hr>
+<div class="row">
+  <div class="col-md-3">
+    <ul class="list-group">
+      <li class="list-group-item ">   <a href="{{path}}admin">Category</a> </li>
+        <li class="list-group-item"><a href="{{path}}admin/users">Users</a></li>
+        <li class="list-group-item"><a href="{{path}}admin/auctions">Auctions</a></li>
+      </ul>
+  </div>
+<div class="col-md-9">
+  <div id="adminarea">
+    <h3 class='text-center'>Auctions</h3>
+    <div id="auctionData">
+    <table  class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Image</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Category</th>
+          <th scope="col">Owner</th>
+          <th scope="col">End at</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody id="categoryTableBody">
+        {% for auction in auctions%}
+        <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td><img src="{{path}}assets/img/auction/{{auction.image_path}}"  style="max-height: 120px;" alt=""> </td>
+        <td>{{auction.title}}</td>
+        <td>{{auction.description}}</td>
+        <td>{{auction.category.name}}</td>
+        <td>{{auction.user.firstname}} {{auction.user.lastname}}</td>
+        <td>{{auction.end_date}}</td>
+        <td>
+          <a class="btn btn-sm btn-primary"  href="{{path}}auction/{{auction.id}}">Auction page</a>
+        <a class="btn btn-sm btn-danger" href="#" data-id="{{auction.id}}" id="auctionDelete" >Delete</a>
+        </td>
+
+        </tr>
+
+        {% endfor%}
+      </tbody>
+    </table>
+
+  </div>   
+  </div>
+
+</div>
+
+</div>
+    {% endblock %}

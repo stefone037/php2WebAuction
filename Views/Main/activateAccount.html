@@ -1,0 +1,19 @@
+{% extends "__core/index.html" %}
+{% block content %}
+
+{% if activated == 'success'%}
+<h1 class="text-center text-success">Confirm registration</h1>
+<div class="alert alert-success" role="alert">
+ You successfully activated your account! Enjoy on our website!
+</div>
+{% else %}
+<h1 class="text-center text-danger">Confirm registration</h1>
+<div class="alert alert-danger" role="alert">
+ Unsuccessfully activation on email, please check your email again!
+</div>
+{%endif%}
+{% endblock %}
+
+
+
+ 

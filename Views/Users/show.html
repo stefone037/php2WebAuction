@@ -1,0 +1,216 @@
+{% extends "__core/index.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-4">
+<div class="card">
+  <div class="card-header">
+      <h4 class="text-center">Profile</h4>
+  </div>
+  <div class="card-body">
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between">
+        <span><i class="fas fa-signature"></i>  </span>
+        <span>{{userprofile.firstname}} {{userprofile.lastname}}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span><i class="fas fa-phone"></i> </span>
+        <span>{{userprofile.phonenumber}}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span><i class="fas fa-envelope-square"></i> </span>
+        <span>{{userprofile.email}}</span>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between">
+        <span> <i class="far fa-calendar-alt"></i> </span>
+        <span>{{userprofile.created_at}}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span> <i class="fas fa-city"></i> </span>
+        <span>{{userprofile.town}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+  </div>
+  <div class="col-md-8">
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Feedbacks</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Active auction</a>
+
+        {% if user.id == id  %}
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Update profile</a>
+
+        {% endif %}
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+        {% if feedbacks %}
+        <div id="feedbacks">
+        {% for feedback in feedbacks%}
+          <div class="card">
+            <div class="card-header">
+            <h4 class="text-center">{{feedback.auction.title}}</h4>
+            </div>
+            <div class="card-body">
+            <p class="card-text">
+            {{feedback.feedback_text}}
+            </p>   
+            </div>
+
+
+            <div class="card-footer d-flex justify-content-between ">
+            <span class="card-text">{{feedback.created_at}}</span>
+               <span class="card-text"> {{feedback.sender.firstname}}  {{feedback.sender.lastname}}  </span>
+            </div>
+          </div>
+       
+          {% endfor %}
+        </div>
+          {% else %}
+
+           <div class="alert alert-info">Currently this profile is without feedback to its auctions</div>
+          {% endif%}
+          <hr>
+
+          <div class="card">
+
+            <div class="card-header">
+              <h3 class='text-center' >Give feedback</h3>
+            </div>
+
+          {% if endauctions %}
+    
+                <div id="form">
+          <input type="hidden" id="senderId" value="{{user.id}}" >
+          <input type="hidden" id="reciverId" value="{{userprofile.id}}" >
+    
+            <div class="form-group">
+
+              <label for="exampleFormControlSelect2">Select auction</label>
+              <select  name="auctionId" class="form-control" id="auctionId">
+               {% for auction in endauctions %}
+              <option value="{{auction.auction_id}}">
+              {{auction.title}}
+              </option>
+               {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Your impression</label>
+              <textarea style='resize:none' class="form-control"  id="impression" rows="3"></textarea>
+            </div>
+
+            <button id="feedbackbtn" class="btn btn-primary">Give feedback</button>
+          </div>
+
+          {% else %}
+   
+            <p class="alert alert-info">
+              There is currently no auction that you won so you can't give feedback</p>
+          {% endif%}
+        </div>
+      </div>
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        {% if auctions == true  %}
+        <table class="table table-image">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Image</th>
+              <th scope="col">Auction Title</th>
+              <th class='text-center' scope="col">End at</th>
+              <th scope="col">Link</th>
+            </tr>
+          </thead>
+          <tbody>
+
+              {% for auction in auctions %}
+            
+            <tr>
+            <th scope="row">{{loop.index}}</th>
+              <td class="w-25">
+              <a href="{{path}}auction/{{auction.id}}">
+              <img  class="img-fluid"  src="{{path}}assets/img/auction/{{auction.image_path}}" alt="auction image">
+            </a>
+              </td>
+          <td>
+              {{auction.title }}
+              </td>
+
+          <td>{{auction.end_date}}</td>
+
+          <td>
+            <a class="btn btn-primary" href="{{path}}auction/{{auction.id}} ">Link</a>
+            <a class="btn btn-primary" href="{{path}}auction/{{auction.id}}/update ">Update auction</a>
+            </td>
+            </tr>
+          
+            {% endfor%}
+          </tbody>
+        </table> 
+        {% else %}
+
+        <h4>No active auction</h4>
+
+         {% endif%}
+      </div>
+      {% if user.id == id %}
+      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <div class="card">
+          <div class="card-header">
+            Update profile
+          </div>
+
+          <div class="card-body">
+            <form method="POST" action="{{path}}users/update">
+              <div class="form-group">
+
+                <input type="hidden" name="id" value="{{id}}"/>
+                <label for="email">Email address</label>
+                <input type="email" value="{{user.email}}" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+           
+             
+              <div class="form-group">
+                <label for="firstname">First name</label>
+                <input type="text" value="{{user.firstname}}" name="firstname" placeholder="Typing your first name" class="form-control" id="firstname" >
+              </div>
+              <div class="form-group">
+                <label for="lastname">LastName</label>
+                <input type="text" value="{{user.lastname}}" name="lastname" placeholder="Typing you last name" class="form-control" id="lastname">
+              </div>
+      
+              <div class="form-group">
+                <label for="phonenumber">Phone number</label>
+                <input type="text" value="{{user.phonenumber}}" name="phonenumber" name="phonenumber" class="form-control" id="phonenumber" placeholder="Format 064-yournumber">
+              </div>
+      
+              <div class="form-group">
+                <label for="town">Town</label>
+                <input type="text" value="{{user.town}}" name="town" class="form-control" id="town" placeholder="Typing your live town">
+              </div>
+              
+              <button type="submit" class="btn btn-primary">Update profile</button>
+      
+      
+      
+              {% if errorMessage %}
+              <div  class="alert alert-danger mt-3">
+                {{errorMessage}}
+              </div>
+          {% endif %}
+            </form>
+          </div>
+        </div>
+
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+    {% endblock %}

@@ -1,0 +1,61 @@
+{% extends "__core/index.html" %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="text-center">My won auctions</h3>
+    </div>
+
+    <div class="card-body">
+
+        {% if wonAuctions %}
+        <table class="table table-image">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Image</th>
+                <th scope="col">Auction Title</th>
+                <th scope="col">Author name </th>
+                <th scope="col">Author town </th>
+                <th scope="col">Author phone number </th>
+                <th scope="col">Author email </th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+
+
+
+                {% for auction in wonAuctions %}
+              
+              <tr>
+              <th scope="row">{{loop.index}}</th>
+                <td class="w-25">
+                <a href="{{path}}auction/{{auction.id}}">
+                <img  class="img-fluid"  src="{{path}}assets/img/auction/{{auction.image_path}}" alt="auction image">
+              </a>
+                </td>
+            <td>
+                {{auction.title }}
+                </td>
+            <td><a href="{{path}}users/{{auction.user_id}}">
+                {{auction.owner.firstname}}</a> </td>
+                <td>{{auction.owner.town}} </td>
+            <td>{{auction.owner.phonenumber}}</td>
+            
+            <td>{{auction.owner.email}}</td>
+
+            <td>{{auction.price}} $</td>
+              </tr>
+            
+              {% endfor%}
+            </tbody>
+          </table>   
+
+          {%  else %}
+          <h1 class="text-center">You current don't have won auctions!</h1> 
+          {% endif %}
+    </div>
+</div>
+    {% endblock %}

@@ -1,0 +1,57 @@
+{% extends "__core/index.html" %}
+{% block content %}
+<h1 class='text-center'>Admin panel</h1>
+<hr>
+<div class="row">
+  <div class="col-md-3">
+    <ul class="list-group">
+      <li class="list-group-item ">   <a href="{{path}}admin">Category</a> </li>
+        <li class="list-group-item"><a href="{{path}}admin/users">Users</a></li>
+        <li class="list-group-item"><a href="{{path}}admin/auctions">Auctions</a></li>
+      </ul>
+  </div>
+<div class="col-md-9">
+  <div id="adminarea">
+    <h3 class='text-center'>Users</h3>
+    <div id="usersData">
+    <table  class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Firstname</th>
+          <th scope="col">Lastname</th>
+          <th scope="col">Email</th>
+          <th scope="col">Town</th>
+          <th scope="col">Phone number</th>
+          <th scope="col">Created at</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody id="categoryTableBody">
+        {% for user in users%}
+        <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td>{{user.firstname}}</td>
+        <td>{{user.lastname}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.town}}</td>
+        <td>{{user.phonenumber}}</td>
+        <td>{{user.created_at}}</td>
+        <td>
+          <a class="btn btn-sm btn-primary"  href="{{path}}/users/{{user.id}}">Profile</a>
+        <a class="btn btn-sm btn-danger" href="#" data-id="{{user.id}}" id="userBtnDelete" >Delete</a>
+        </td>
+
+        </tr>
+
+        {% endfor%}
+      </tbody>
+    </table>
+
+  </div>   
+  </div>
+
+</div>
+
+</div>
+    {% endblock %}
